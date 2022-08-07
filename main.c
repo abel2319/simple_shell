@@ -1,7 +1,4 @@
-#include <unistd.h>
-#include <stdio.h>
-#include <sys/types.h>
-#include <sys/wait.h>
+#include "main.h"
 
 /**
  * main - entry point of shell
@@ -9,7 +6,7 @@
  * Return: 0 for success
  */
 
-int main(void)
+int main(int __attribute__((unused))argc, char **argv)
 {
 	int test_read, status, i = 0, test_exc;
 	char *cmd[] = {NULL, NULL};
@@ -36,7 +33,10 @@ int main(void)
 			test_exc = execve(cmd[0], cmd, NULL);
 
 			if (test_exc == -1)
-				return (-1);
+			{
+				write(1, argv[0], _strlen(argv[0]));
+				write(1, ": No such file or directory\n", 28);
+			}
 		}
 		else
 		{
