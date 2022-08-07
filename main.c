@@ -8,7 +8,7 @@
 
 int main(int __attribute__((unused))argc, char **argv)
 {
-	int test_read, status, i = 0, test_exc;
+	int test_read, status, test_exc;
 	char *cmd[] = {NULL, NULL};
 	size_t char_read = 0;
 	pid_t pid;
@@ -20,10 +20,10 @@ int main(int __attribute__((unused))argc, char **argv)
 		if (test_read == -1)
 			return (-1);
 
-		for (i = 0; cmd[0][i] != '\0'; i++)
+		/*for (i = 0; cmd[0][i] != '\0'; i++)
 			if (cmd[0][i] == '\n')
-				cmd[0][i] = '\0';
-
+				cmd[0][i] = '\0';*/
+		_split(cmd);
 		pid = fork();
 
 		if (pid == -1)
