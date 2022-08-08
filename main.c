@@ -3,34 +3,40 @@
 /**
  * main - entry point of shell
  *
+ * @argc: number of argument
+ * @argv: argument list
+ * @env: list of env var
+ *
  * Return: 0 for success
  */
 
-int main(int __attribute__((unused))argc, char **argv)
+int main(int __attribute__((unused))argc, char **argv, char **env)
 {
 	int test_read, status, test_exc;
-	char *cmd[] = {NULL, NULL};
+	char *cmd_pass = NULL;
+	char **cmd = NULL;
 	size_t char_read = 0;
 	pid_t pid;
 
-	do{
+	do {
 		write(1, "$ ", 2);
-		test_read = getline(cmd, &char_read, stdin);
+		test_read = getline(&cmd_pass, &char_read, stdin);
 
 		if (test_read == -1)
 			return (-1);
 
-		/*for (i = 0; cmd[0][i] != '\0'; i++)
-			if (cmd[0][i] == '\n')
-				cmd[0][i] = '\0';*/
-		_split(cmd);
+		remove_end_line(cmd_pass);
+
+		cmd = split_string(cmd_pass, " ");
+
 		pid = fork();
 
 		if (pid == -1)
 			return (-1);
 		else if (pid == 0)
 		{
-			test_exc = execve(cmd[0], cmd, NULL);
+
+			test_exc = execve(cmd[0], cmd, env);
 
 			if (test_exc == -1)
 			{
@@ -43,7 +49,7 @@ int main(int __attribute__((unused))argc, char **argv)
 			wait(&status);
 		}
 
-	}while(test_read != -1);
+	} while (test_read != -1);
 
 	return (0);
 }

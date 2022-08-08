@@ -6,7 +6,10 @@
 #include <sys/types.h>
 #include <sys/wait.h>
 #include <stdlib.h>
+#include <string.h>
 
 int _strlen(char *str);
-void _split(char *str[]);
+char **split_string(char *str, char *del);
+void remove_end_line(char *str);
+
 #endif /* _MAIN_H_ */

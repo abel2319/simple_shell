@@ -1,35 +1,48 @@
 #include "main.h"
+
 /**
- * _split - split the string got by getline
- * @str: string to split using space as delimiter
+ * split_string - split a string for execve
+ * @str: string to split
+ * @del: delimiter for split
  *
- * Return: an array of string
+ * Return: table of string split
  */
-void _split(char *str[])
+
+char **split_string(char *str, char *del)
 {
-	char *token;
-	int len = 0, i = 0, j = 0;
+	char *mystr, *buf;
+	char **result;
+	int size = 0, i;
 
-	len = _strlen(*str) + 1;
-	for (; i <= len; i++)
+	i = _strlen(str);
+
+	mystr = malloc(sizeof(char) * (i + 1));
+
+	for (i = 0; str[i] != '\0'; i++)
 	{
-		/*tmp[i] = str[0][i];*/
-		if (str[0][i] == ' ' && str[0][i + 1] != ' ')
-			j++;
+		mystr[i] = str[i];
 	}
 
-	i=0;
-	token = strtok(str[0], " ");
-	str = realloc(str, sizeof(char*) * j);
-	while (token != NULL)
+	mystr[i] = '\0';
+
+	buf = strtok(mystr, del);
+
+	while (buf != NULL)
 	{
-		len = _strlen(token) + 1;
-		str[i] = malloc(sizeof(char) * len);
 
-		for (j = 0; j <= len; j++)
-			str[0][j] = token[j];
+		if (size == 0)
+		{
+			result = malloc(sizeof(char *) * ++size);
+		}
+		else
+			result = realloc(result, sizeof(char *) * ++size);
 
-		i++;
-		token = strtok(NULL, " ");
+		result[size - 1] = buf;
+		buf = strtok(NULL, del);
 	}
+
+	result = realloc(result, sizeof(char *) * ++size);
+	result[size - 1] = NULL;
+
+	return (result);
 }
