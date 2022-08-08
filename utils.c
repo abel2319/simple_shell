@@ -30,3 +30,47 @@ void remove_end_line(char *str)
 			str[i] = '\0';
 
 }
+
+/**
+ *
+ *
+ *
+ *
+ *
+ */
+
+int check_equal_string(char *str1, char *str2)
+{
+	int i;
+
+	for (i = 0; str1[i] != '\0'; i++)
+		if (str2[i] == '\0' || (str1[i] != str2[i]))
+			return (0);
+				return (1);
+}
+
+/**
+ * str_concat - concatenates two string
+ * @s1: first string
+ * @s2: second string
+ *
+ * Return: result string
+ */
+
+char *str_concat(char *s1, char *s2)
+{
+	int i, size = _strlen(s1) + _strlen(s2);
+	char *new = malloc(sizeof(char) * (size + 1));
+
+	if (new == NULL)
+		return (NULL);
+	for (i = 0; i < size; i++)
+	{
+		if (i < _strlen(s1))
+			new[i] = s1[i];
+		else
+			new[i] = s2[i - _strlen(s1)];
+	}
+	new[i] = '\0';
+	return (new);
+}
