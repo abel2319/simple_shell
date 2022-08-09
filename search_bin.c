@@ -1,5 +1,13 @@
 #include "main.h"
-
+/**
+ * search_bin - search folder where executable bin is located
+ * @bin: executable whose we're looking for
+ * @path: string containing a whole of folder's path
+ * where we will look for bin
+ *
+ * Return: absolute path of bin
+ * NULL otherwize
+ */
 char *search_bin(char *bin, char *path)
 {
 	struct stat file;
@@ -13,7 +21,7 @@ char *search_bin(char *bin, char *path)
 
 	if (test == 0)
 	{
-		return bin;
+		return (bin);
 	}
 
 	previous_path = malloc(sizeof(char) * 2048);
@@ -41,5 +49,5 @@ char *search_bin(char *bin, char *path)
 		i_path = strtok(NULL, ":");
 	} while (test != 0);
 
-	return NULL;
+	return (NULL);
 }
