@@ -4,12 +4,15 @@ char *_getenv(char *env)
 {
 	int i;
 	char *env_key;
+	char *temp;
 
 	for (i = 0; environ[i] != NULL; i++)
 	{
-		env_key = strtok(environ[i], "=");
+		temp = _strdup(environ[i]);
 
-		if ( check_equal_string(env, env_key) == 1)\
+		env_key = strtok(temp, "=");
+
+		if ( check_equal_string(env, env_key) == 1)
 			return (strtok(NULL, "="));
 	}
 

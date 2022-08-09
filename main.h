@@ -19,5 +19,6 @@ char *search_bin(char *, char *);
 int check_equal_string(char *str1, char *str2);
 char *_getenv(char *env);
 char *str_concat(char *s1, char *s2);
+char *_strdup(char *str);
 
 #endif /* _MAIN_H_ */

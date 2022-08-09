@@ -39,8 +39,7 @@ int main(int __attribute__((unused))argc, char **argv, char **env)
 				return (-1);
 			else if (pid == 0)
 			{
-				i++;
-				printf("pid son %u pid father %u\n", getpid(), getppid());
+
 				test_exc = execve(cmd[0], cmd, env);
 
 				if (test_exc == -1)
@@ -50,7 +49,7 @@ int main(int __attribute__((unused))argc, char **argv, char **env)
 				}
 			}
 
-			printf("status %u\n", wait(&status));
+			wait(&status);
 
 		}
 	} while (test_read != -1);

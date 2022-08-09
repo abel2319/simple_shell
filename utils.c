@@ -74,3 +74,36 @@ char *str_concat(char *s1, char *s2)
 	new[i] = '\0';
 	return (new);
 }
+
+
+/**
+ * _strdup - duplicate a string
+ * @str: string to duplicate
+ *
+ * Return: pointer to the new string
+ */
+
+char *_strdup(char *str)
+{
+	int i, size = 0;
+	char *new = NULL;
+
+	if (str != NULL)
+	{
+		for (i = 0; str[i] != '\0'; size++, i++)
+		{
+		}
+
+		new = malloc(sizeof(char) * (size + 1));
+
+		if (new == NULL)
+			return (NULL);
+
+		for (i = 0; i < size + 1; i++)
+			new[i] = str[i];
+
+		return (new);
+	}
+	else
+		return (NULL);
+}
