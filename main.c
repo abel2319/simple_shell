@@ -12,7 +12,7 @@
 
 int main(int __attribute__((unused))argc, char **argv, char **env)
 {
-	int test_read, status, test_exc, i = 0;
+	int test_read, status, test_exc;
 	char *cmd_pass = NULL;
 	char **cmd = NULL;
 	size_t char_read = 0;
@@ -21,6 +21,7 @@ int main(int __attribute__((unused))argc, char **argv, char **env)
 	do {
 
 		write(1, "$ ", 2);
+		cmd_pass = NULL;
 		test_read = getline(&cmd_pass, &char_read, stdin);
 
 		if (test_read == -1)
@@ -28,7 +29,13 @@ int main(int __attribute__((unused))argc, char **argv, char **env)
 
 		remove_end_line(cmd_pass);
 
+		if (cmd != NULL)
+			free(cmd);
+
 		cmd = split_string(cmd_pass, " ");
+
+		if (cmd_pass != NULL)
+			free(cmd_pass);
 
 		cmd[0] = search_bin(cmd[0], _getenv("PATH"));
 
@@ -50,7 +57,13 @@ int main(int __attribute__((unused))argc, char **argv, char **env)
 			}
 
 			wait(&status);
+			free(cmd[0]);
 
+		}
+		else
+		{
+			write(1, argv[0], _strlen(argv[0]));
+			write(1, ": No such file or directory\n", 28);
 		}
 	} while (test_read != -1);
 

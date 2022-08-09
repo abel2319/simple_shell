@@ -41,6 +41,7 @@ char **split_string(char *str, char *del)
 		buf = strtok(NULL, del);
 	}
 
+
 	result = realloc(result, sizeof(char *) * ++size);
 	result[size - 1] = NULL;
 

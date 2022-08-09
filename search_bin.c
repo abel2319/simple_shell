@@ -4,7 +4,7 @@ char *search_bin(char *bin, char *path)
 {
 	struct stat file;
 	int test, test_cd;
-	char *i_path;
+	char *i_path, *save, *save1;
 	char *previous_path = NULL;
 
 	i_path = strtok(path, ":");
@@ -29,7 +29,10 @@ char *search_bin(char *bin, char *path)
 			{
 				chdir(previous_path);
 				free(previous_path);
-				return (str_concat(str_concat(i_path, "/"), bin));
+				save = str_concat(i_path, "/");
+				save1 = str_concat(save, bin);
+				free(save);
+				return (save1);
 			}
 		}
 		else
