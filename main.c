@@ -12,7 +12,7 @@
 
 int main(int __attribute__((unused))argc, char **argv, char **env)
 {
-	int test_read, status, test_exc;
+	int test_read, status, test_exc, test_verif;
 	char *cmd_pass = NULL;
 	char **cmd = NULL;
 	size_t char_read = 0;
@@ -26,8 +26,12 @@ int main(int __attribute__((unused))argc, char **argv, char **env)
 
 		if (test_read == -1)
 			return (-1);
-
+		
 		remove_end_line(cmd_pass);
+		
+		test_verif = check_equal_string(cmd_pass, "exit");
+		if (test_verif)
+			_exit(1);
 
 		if (cmd != NULL)
 			free(cmd);
