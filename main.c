@@ -19,7 +19,6 @@ int main(int __attribute__((unused))argc, char **argv, char **env)
 	pid_t pid;
 
 	do {
-
 		write(1, "$ ", 2);
 		cmd_pass = NULL;
 		test_read = getline(&cmd_pass, &char_read, stdin);
@@ -39,7 +38,8 @@ int main(int __attribute__((unused))argc, char **argv, char **env)
 
 		cmd[0] = search_bin(cmd[0], _getenv("PATH"));
 
-		if(cmd[0] != NULL){
+		if (cmd[0] != NULL)
+		{
 			pid = fork();
 
 			if (pid == -1)
@@ -49,11 +49,6 @@ int main(int __attribute__((unused))argc, char **argv, char **env)
 
 				test_exc = execve(cmd[0], cmd, env);
 
-				if (test_exc == -1)
-				{
-					write(1, argv[0], _strlen(argv[0]));
-					write(1, ": No such file or directory\n", 28);
-				}
 			}
 
 			wait(&status);
