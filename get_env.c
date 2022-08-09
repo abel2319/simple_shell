@@ -12,7 +12,7 @@ char *_getenv(char *env)
 
 		env_key = strtok(temp, "=");
 
-		if ( check_equal_string(env, env_key) == 1)
+		if (check_equal_string(env, env_key) == 1)
 		{
 			buf = strtok(NULL, "=");
 			/* free(temp); */

@@ -32,11 +32,12 @@ void remove_end_line(char *str)
 }
 
 /**
+ * check_equal_string - verify if two strings are same
+ * @str1: first strings
+ * @str2: second string
  *
- *
- *
- *
- *
+ * Return: 1 if str1 and str2 are same
+ * 0 otherwize
  */
 
 int check_equal_string(char *str1, char *str2)
