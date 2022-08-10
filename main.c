@@ -70,14 +70,14 @@ int main(int __attribute__((unused))argc, char **argv, char **env)
 
 		remove_end_line(cmd_pass);
 
-		test_verif = check_equal_string(cmd_pass, "exit");
-		if (test_verif)
-			_exit(1);
-
 		if (cmd != NULL)
 			free(cmd);
 
 		cmd = split_string(cmd_pass, " ");
+
+		test_verif = check_equal_string(cmd[0], "exit");
+		if (test_verif)
+			_exit(1);
 
 		if (cmd_pass != NULL)
 			free(cmd_pass);
