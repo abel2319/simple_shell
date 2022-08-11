@@ -8,7 +8,7 @@
  * Return: absolute path of bin
  * NULL otherwize
  */
-char *search_bin(char *bin, char *path)
+char *search_bin(char *bin, char *path, char *argv)
 {
 	struct stat file;
 	int test, test_cd;
@@ -48,6 +48,11 @@ char *search_bin(char *bin, char *path)
 
 		i_path = strtok(NULL, ":");
 	} while (test != 0);
+
+	write(1, argv, _strlen(argv));
+	write(1, ": 1: ", 5);
+	write(1, bin, _strlen(bin));
+	write(1, ": not found", 11);
 
 	return (NULL);
 }
