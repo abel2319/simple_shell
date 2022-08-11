@@ -61,7 +61,7 @@ int main(int __attribute__((unused))argc, char **argv, char **env)
 	size_t char_read = 0;
 
 	do {
-		write(1, "$ ", 2);
+		write(1, " ($) ", 5);
 		cmd_pass = NULL;
 		test_read = getline(&cmd_pass, &char_read, stdin);
 
