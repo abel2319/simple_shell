@@ -10,7 +10,7 @@
  * -1 otherwize
  */
 
-int _execve(char **cmd, char **argv, char **env)
+int _execve(char **cmd, char **env)
 {
 	int status;
 	pid_t pid;
@@ -54,8 +54,11 @@ int main(int __attribute__((unused))argc, char **argv, char **env)
 	size_t char_read = 0;
 
 	do {
-		/* write(1, "$ ", 2); */
 		cmd_pass = NULL;
+
+		if (isatty(0))
+			write(1, "$ ", 2);
+
 		test_read = getline(&cmd_pass, &char_read, stdin);
 
 		if (test_read == -1)
@@ -75,9 +78,9 @@ int main(int __attribute__((unused))argc, char **argv, char **env)
 		if (cmd_pass != NULL)
 			free(cmd_pass);
 
-		cmd[0] = search_bin(cmd[0], _getenv("PATH"), arv[0]);
+		cmd[0] = search_bin(cmd[0], _getenv("PATH"), argv[0]);
 
-		test_exc = _execve(cmd, argv, env);
+		test_exc = _execve(cmd, env);
 		if (test_exc == -1)
 			return (-1);
 
