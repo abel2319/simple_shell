@@ -47,7 +47,7 @@ char **split_string(char **str, char *del)
 		return (NULL);
 
 	count = find_number_token(*str, del, 0);
-	result = malloc(sizeof(char *) * count + 1);
+	result = malloc(sizeof(char *) * (count + 1));
 
 	result[i] = strtok(*str, " ");
 
