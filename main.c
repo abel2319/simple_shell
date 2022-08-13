@@ -1,90 +1,68 @@
 #include "main.h"
 
-/**
- * _execve - execute commande specified by cmd
- * @cmd: commande to execute
- * @argv: second argument in function main
- * @env: third argument in function main
- *
- * Return: 1 id success
- * -1 otherwize
- */
-
-int _execve(char **cmd, char **env)
+int _myexec(char *prg_name, char **cmd)
 {
-	int status;
-	pid_t pid;
 
-	if (cmd[0] != NULL)
-	{
-		pid = fork();
-
-		if (pid == -1)
-			return (-1);
-		else if (pid == 0)
-		{
-
-			execve(cmd[0], cmd, env);
-
-		}
-
-		wait(&status);
-		free(cmd[0]);
-
-	}
-
-	return (1);
 }
 
-/**
- * main - entry point of shell
- *
- * @argc: number of argument
- * @argv: argument list
- * @env: list of env var
- *
- * Return: 0 for success
- */
-
-int main(int __attribute__((unused))argc, char **argv, char **env)
+int main(int __attribute__((unused)) argc, char **argv, char **env)
 {
-	int test_read, test_exc, test_verif;
-	char *cmd_pass = NULL;
-	char **cmd = NULL;
-	size_t char_read = 0;
+	ssize_t test_getline;
+	size_t getline_count;
+	char *line_cmd = NULL;
+	char **cmd;
+	char *path_s = NULL;
+	pid_t pid_prg;
+	int status;
 
 	do {
-		cmd_pass = NULL;
 
 		if (isatty(0))
 			write(1, "$ ", 2);
 
-		test_read = getline(&cmd_pass, &char_read, stdin);
+		test_getline = getline(&line_cmd, &getline_count, stdin);
 
-		if (test_read == -1)
+		if (test_getline == -1)
+		{
+			free(line_cmd);
 			return (-1);
+		}
 
-		remove_end_line(cmd_pass);
+		remove_end_line(line_cmd);
 
-		if (cmd != NULL)
-			free(cmd);
+		cmd = split_string(&line_cmd, " ");
 
-		cmd = split_string(cmd_pass, " ");
+		path_s = _getenv("PATH");
 
-		test_verif = check_equal_string(cmd[0], "exit");
-		if (test_verif)
-			_exit(1);
+		cmd[0] = search_bin(cmd[0], path_s);
 
-		if (cmd_pass != NULL)
-			free(cmd_pass);
+		if (cmd[0] != NULL)
+		{
+			pid_prg = fork();
 
-		cmd[0] = search_bin(cmd[0], _getenv("PATH"), argv[0]);
+			if (pid_prg == -1)
+			{
+				return (-1);
+			}
+			else if (pid_prg == 0)
+			{
+				execve(cmd[0], cmd, env);
+			}
 
-		test_exc = _execve(cmd, env);
-		if (test_exc == -1)
-			return (-1);
+			wait(&status);
+			free(cmd[0]);
+		}
+		else
+		{
+			display_error(argv[0], cmd[0]);
+		}
 
-	} while (test_read != -1);
+		free(path_s);
+		free(cmd);
+	} while (test_getline != -1);
+
+	if (line_cmd != NULL)
+		free(line_cmd);
 
 	return (0);
 }

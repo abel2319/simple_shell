@@ -8,27 +8,25 @@
  * Return: absolute path of bin
  * NULL otherwize
  */
-char *search_bin(char *bin, char *path, char *argv)
+char *search_bin(char *bin, char *path)
 {
 	struct stat file;
 	int test, test_cd;
-	char *i_path, *save, *save1;
-	char *previous_path = NULL;
-
-	i_path = strtok(path, ":");
+	char *i_path, *save, *save1, *previous_path = NULL;
 
 	test = stat(bin, &file);
 
 	if (test == 0)
 	{
-		return (bin);
+		return (_strdup(bin));
 	}
 
-	previous_path = malloc(sizeof(char) * 2048);
-	previous_path = getcwd(previous_path, 2048);
+	previous_path = malloc(sizeof(char) * PATH_MAX);
+	previous_path = getcwd(previous_path, PATH_MAX);
+	i_path = strtok(path, ":");
+
 	do {
 		test_cd = chdir(i_path);
-
 		if (test_cd == 0)
 		{
 			test = stat(bin, &file);
@@ -44,15 +42,14 @@ char *search_bin(char *bin, char *path, char *argv)
 			}
 		}
 		else
+		{
+			chdir(previous_path);
+			free(previous_path);
 			return (NULL);
+		}
 
 		i_path = strtok(NULL, ":");
 	} while (test != 0);
-
-	write(1, argv, _strlen(argv));
-	write(1, ": 1: ", 5);
-	write(1, bin, _strlen(bin));
-	write(1, ": not found", 11);
 
 	return (NULL);
 }

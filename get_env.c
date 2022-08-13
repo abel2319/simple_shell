@@ -11,7 +11,7 @@ char *_getenv(char *env)
 {
 	int i;
 	char *env_key;
-	char *temp, *buf;
+	char *temp, *buf, *temp1;
 
 	for (i = 0; environ[i] != NULL; i++)
 	{
@@ -22,8 +22,9 @@ char *_getenv(char *env)
 		if (check_equal_string(env, env_key) == 1)
 		{
 			buf = strtok(NULL, "=");
-			/* free(temp); */
-			return (buf);
+			temp1 = _strdup(buf);
+			free(temp);
+			return (temp1);
 		}
 
 		free(temp);

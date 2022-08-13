@@ -1,5 +1,26 @@
 #include "main.h"
 
+int find_number_token(char *str, char *del, int index)
+{
+	int j;
+
+	if (*str == '\0')
+		return (0);
+
+	for (j = 0; j < _strlen(del); j++)
+	{
+		if (*str == del[j])
+		{
+			return 0 + find_number_token(str + 1, del, 0);
+		}
+	}
+
+	if(index == 1)
+		return 0 + find_number_token(str + 1, del, 1);
+
+	return 1 + find_number_token(str + 1, del, 1);
+}
+
 /**
  * split_string - split a string for execve
  * @str: string to split
@@ -8,42 +29,23 @@
  * Return: table of string split
  */
 
-char **split_string(char *str, char *del)
+char **split_string(char **str, char *del)
 {
-	char *mystr, *buf;
-	char **result;
-	int size = 0, i;
+	char **result = NULL;
+	int i = 0, count = 0;
 
-	i = _strlen(str);
-
-	mystr = malloc(sizeof(char) * (i + 1));
-
-	for (i = 0; str[i] != '\0'; i++)
+	if (str == NULL)
+		return NULL;
+	else
 	{
-		mystr[i] = str[i];
+		count = find_number_token(*str, del, 0);
+		result = malloc(sizeof(char*) * count + 1);
+
+		result[i] = strtok(*str, " ");
+
+		while (result[i] != NULL)
+			result[++i] = strtok(NULL, " ");
+
+		return result;
 	}
-
-	mystr[i] = '\0';
-
-	buf = strtok(mystr, del);
-
-	while (buf != NULL)
-	{
-
-		if (size == 0)
-		{
-			result = malloc(sizeof(char *) * ++size);
-		}
-		else
-			result = realloc(result, sizeof(char *) * ++size);
-
-		result[size - 1] = buf;
-		buf = strtok(NULL, del);
-	}
-
-
-	result = realloc(result, sizeof(char *) * ++size);
-	result[size - 1] = NULL;
-
-	return (result);
 }
