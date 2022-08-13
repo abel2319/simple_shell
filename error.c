@@ -1,9 +1,9 @@
 #include "main.h"
 
 /**
- *
- *
- *
+ * display_error - print our shell errors
+ * @prg: our shell
+ * @bin_name: bin which failed
  *
  */
 
