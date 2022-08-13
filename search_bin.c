@@ -15,7 +15,6 @@ char *search_bin(char *bin, char *path)
 	char *i_path, *save, *save1, *previous_path = NULL;
 
 	test = stat(bin, &file);
-
 	if (test == 0)
 	{
 		return (_strdup(bin));
@@ -47,7 +46,6 @@ char *search_bin(char *bin, char *path)
 			free(previous_path);
 			return (NULL);
 		}
-
 		i_path = strtok(NULL, ":");
 	} while (test != 0);
 

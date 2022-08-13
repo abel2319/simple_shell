@@ -1,5 +1,13 @@
 #include "main.h"
-
+/*
+ * _myexec - execute binary in cmd[0]
+ * @prg_name: our shell executable name
+ * @cmd: commande to execute with its arguments
+ * @env: environnement variable
+ *
+ * Return: -1 if fork failed
+ * 0 otherwize
+ */
 int _myexec(char *prg_name, char **cmd, char **env)
 {
 	pid_t pid_prg;
@@ -28,7 +36,15 @@ int _myexec(char *prg_name, char **cmd, char **env)
 
 	return (0);
 }
-
+/**
+ * main - Entry code
+ * @argc: number of argument past to the num
+ * @argv: arguments past to main
+ * @env: environnemnt variable
+ *
+ * Return: 0 success
+ * -1 otherwize
+ */
 int main(int __attribute__((unused)) argc, char **argv, char **env)
 {
 	ssize_t test_getline;
@@ -52,7 +68,6 @@ int main(int __attribute__((unused)) argc, char **argv, char **env)
 		}
 
 		remove_end_line(line_cmd);
-
 		cmd = split_string(&line_cmd, " ");
 
 		path_s = _getenv("PATH");
