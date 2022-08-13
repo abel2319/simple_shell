@@ -1,8 +1,32 @@
 #include "main.h"
 
-int _myexec(char *prg_name, char **cmd)
+int _myexec(char *prg_name, char **cmd, char **env)
 {
+	pid_t pid_prg;
+	int status;
 
+	if (cmd[0] != NULL)
+	{
+		pid_prg = fork();
+
+		if (pid_prg == -1)
+		{
+			return (-1);
+		}
+		else if (pid_prg == 0)
+		{
+			execve(cmd[0], cmd, env);
+		}
+
+		wait(&status);
+		free(cmd[0]);
+	}
+	else
+	{
+		display_error(prg_name, cmd[0]);
+	}
+
+	return (0);
 }
 
 int main(int __attribute__((unused)) argc, char **argv, char **env)
@@ -12,8 +36,7 @@ int main(int __attribute__((unused)) argc, char **argv, char **env)
 	char *line_cmd = NULL;
 	char **cmd;
 	char *path_s = NULL;
-	pid_t pid_prg;
-	int status;
+	int test_exec;
 
 	do {
 
@@ -36,26 +59,10 @@ int main(int __attribute__((unused)) argc, char **argv, char **env)
 
 		cmd[0] = search_bin(cmd[0], path_s);
 
-		if (cmd[0] != NULL)
-		{
-			pid_prg = fork();
+		test_exec = _myexec(argv[0], cmd, env);
 
-			if (pid_prg == -1)
-			{
-				return (-1);
-			}
-			else if (pid_prg == 0)
-			{
-				execve(cmd[0], cmd, env);
-			}
-
-			wait(&status);
-			free(cmd[0]);
-		}
-		else
-		{
-			display_error(argv[0], cmd[0]);
-		}
+		if (test_exec == -1)
+			return (-1);
 
 		free(path_s);
 		free(cmd);

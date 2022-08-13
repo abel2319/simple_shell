@@ -1,5 +1,11 @@
 #include "main.h"
 
+/**
+ *
+ *
+ *
+ *
+ */
 
 void display_error(char *prg, char *bin_name)
 {
