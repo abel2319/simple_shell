@@ -64,7 +64,7 @@ int main(int __attribute__((unused)) argc, char **argv, char **env)
 		if (test_getline == -1)
 		{
 			free(line_cmd);
-			return (-1);
+			return (0);
 		}
 
 		remove_end_line(line_cmd);
