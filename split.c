@@ -1,5 +1,14 @@
 #include "main.h"
-
+/**
+ * find_number_token - find number of token in a string
+ * by using the delimatator(s)
+ * @str: where token are counted
+ * @del: hte delimator(s)
+ * @index : if a token is counted or not
+ *
+ * Return: the number of token
+ * Or 0 if nothing is found
+ */
 int find_number_token(char *str, char *del, int index)
 {
 	int j;
@@ -11,14 +20,14 @@ int find_number_token(char *str, char *del, int index)
 	{
 		if (*str == del[j])
 		{
-			return 0 + find_number_token(str + 1, del, 0);
+			return (0 + find_number_token(str + 1, del, 0));
 		}
 	}
 
-	if(index == 1)
-		return 0 + find_number_token(str + 1, del, 1);
+	if (index == 1)
+		return (0 + find_number_token(str + 1, del, 1));
 
-	return 1 + find_number_token(str + 1, del, 1);
+	return (1 + find_number_token(str + 1, del, 1));
 }
 
 /**
@@ -35,17 +44,14 @@ char **split_string(char **str, char *del)
 	int i = 0, count = 0;
 
 	if (str == NULL)
-		return NULL;
-	else
-	{
-		count = find_number_token(*str, del, 0);
-		result = malloc(sizeof(char*) * count + 1);
+		return (NULL);
 
-		result[i] = strtok(*str, " ");
+	count = find_number_token(*str, del, 0);
+	result = malloc(sizeof(char *) * count + 1);
 
-		while (result[i] != NULL)
-			result[++i] = strtok(NULL, " ");
+	result[i] = strtok(*str, " ");
 
-		return result;
-	}
+	while (result[i] != NULL)
+		result[++i] = strtok(NULL, " ");
+	return (result);
 }

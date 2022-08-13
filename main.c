@@ -1,5 +1,5 @@
 #include "main.h"
-/*
+/**
  * _myexec - execute binary in cmd[0]
  * @prg_name: our shell executable name
  * @cmd: commande to execute with its arguments
