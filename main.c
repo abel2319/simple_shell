@@ -4,16 +4,16 @@
  * @prg_name: our shell executable name
  * @cmd: commande to execute with its arguments
  * @env: environnement variable
- *
+ * @test: check if bin was found
  * Return: -1 if fork failed
  * 0 otherwize
  */
-int _myexec(char *prg_name, char **cmd, char **env)
+int _myexec(char *prg_name, char **cmd, char **env, int test)
 {
 	pid_t pid_prg;
 	int status;
 
-	if (cmd[0] != NULL)
+	if (test == 0)
 	{
 		pid_prg = fork();
 
@@ -32,10 +32,12 @@ int _myexec(char *prg_name, char **cmd, char **env)
 	else
 	{
 		display_error(prg_name, cmd[0]);
+		free(cmd[0]);
 	}
 
 	return (0);
 }
+
 /**
  * main - Entry code
  * @argc: number of argument past to the num
@@ -45,6 +47,7 @@ int _myexec(char *prg_name, char **cmd, char **env)
  * Return: 0 success
  * -1 otherwize
  */
+
 int main(int __attribute__((unused)) argc, char **argv, char **env)
 {
 	ssize_t test_getline;
@@ -52,10 +55,9 @@ int main(int __attribute__((unused)) argc, char **argv, char **env)
 	char *line_cmd = NULL;
 	char **cmd;
 	char *path_s = NULL;
-	int test_exec;
+	int test_exec = 0, test_find;
 
 	do {
-
 		if (isatty(0))
 			write(1, "$ ", 2);
 
@@ -69,12 +71,12 @@ int main(int __attribute__((unused)) argc, char **argv, char **env)
 
 		remove_end_line(line_cmd);
 		cmd = split_string(&line_cmd, " ");
-
 		path_s = _getenv("PATH");
 
-		cmd[0] = search_bin(cmd[0], path_s);
+		cmd[0] = search_bin(cmd[0], path_s, &test_find);
 
-		test_exec = _myexec(argv[0], cmd, env);
+		if (test_find != 1)
+			test_exec = _myexec(argv[0], cmd, env, test_find);
 
 		if (test_exec == -1)
 			return (-1);

@@ -16,7 +16,7 @@
 int _strlen(char *str);
 char **split_string(char **str, char *del);
 void remove_end_line(char *str);
-char *search_bin(char *, char *);
+char *search_bin(char *, char *, int *);
 int check_equal_string(char *str1, char *str2);
 char *_getenv(char *env);
 char *str_concat(char *s1, char *s2);
