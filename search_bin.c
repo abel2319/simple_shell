@@ -11,7 +11,7 @@
 
 char *set_correct_path(char *previous_path, char *bin, char *i_path)
 {
-	car *save, *save1;
+	char *save, *save1;
 
 	chdir(previous_path);
 	free(previous_path);
@@ -36,7 +36,7 @@ char *search_bin(char *bin, char *path, int *test_f)
 {
 	struct stat file;
 	int test;
-	char *i_path, *save, *save1, *previous_path = NULL;
+	char *i_path, *previous_path = NULL;
 
 	if (bin == NULL)
 	{
