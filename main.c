@@ -33,7 +33,7 @@ int _myexec(char *prg_name, char **cmd, char **env, int test)
 	{
 		display_error(prg_name, cmd[0]);
 		free(cmd[0]);
-		return (EXIT_FAILURE);
+		return (127);
 	}
 
 	return (EXIT_SUCCESS);

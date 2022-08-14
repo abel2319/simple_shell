@@ -31,7 +31,8 @@ char *search_bin(char *bin, char *path, int *test_f)
 	previous_path = getcwd(previous_path, PATH_MAX);
 	i_path = strtok(path, ":");
 
-	do {
+	while (i_path != NULL)
+	{
 		chdir(i_path);
 		test = stat(bin, &file);
 		if (test == 0)
@@ -45,7 +46,7 @@ char *search_bin(char *bin, char *path, int *test_f)
 			return (save1);
 		}
 		i_path = strtok(NULL, ":");
-	} while (i_path != NULL);
+	}
 
 	chdir(previous_path);
 	free(previous_path);
