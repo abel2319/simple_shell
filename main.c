@@ -31,6 +31,8 @@ int _myexec(char *prg_name, char **cmd, char **env, int test)
 	}
 	else
 	{
+		if (check_equal_string(cmd[0], "exit") == 1)
+			exit(0);
 		display_error(prg_name, cmd[0]);
 		free(cmd[0]);
 		return (127);
