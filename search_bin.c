@@ -1,6 +1,28 @@
 #include "main.h"
 
 /**
+ * set_correct_path - set the correct path of bin if found on PATH
+ * @previous_path: current path of th program
+ * @bin: name of bin
+ * @i_path: PATH found
+ *
+ * Return: correct path
+ */
+
+char *set_correct_path(char *previous_path, char *bin, char *i_path)
+{
+	car *save, *save1;
+
+	chdir(previous_path);
+	free(previous_path);
+	save = str_concat(i_path, "/");
+	save1 = str_concat(save, bin);
+	free(save);
+
+	return (save1);
+}
+
+/**
  * search_bin - search folder where executable bin is located
  * @bin: executable whose we're looking for
  * @path: string containing a whole of folder's path
@@ -27,6 +49,11 @@ char *search_bin(char *bin, char *path, int *test_f)
 		*test_f = 0;
 		return (_strdup(bin));
 	}
+	if (path == NULL)
+	{
+		*test_f = -1;
+		return (_strdup(bin));
+	}
 	previous_path = malloc(sizeof(char) * PATH_MAX);
 	previous_path = getcwd(previous_path, PATH_MAX);
 	i_path = strtok(path, ":");
@@ -36,17 +63,11 @@ char *search_bin(char *bin, char *path, int *test_f)
 		test = stat(bin, &file);
 		if (test == 0)
 		{
-			chdir(previous_path);
-			free(previous_path);
-			save = str_concat(i_path, "/");
-			save1 = str_concat(save, bin);
-			free(save);
 			*test_f = 0;
-			return (save1);
+			return (set_correct_path(previous_path, bin, i_path));
 		}
 		i_path = strtok(NULL, ":");
 	}
-
 	chdir(previous_path);
 	free(previous_path);
 	*test_f = -1;
