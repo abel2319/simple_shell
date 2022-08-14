@@ -44,10 +44,16 @@ int check_equal_string(char *str1, char *str2)
 {
 	int i;
 
-	for (i = 0; str1[i] != '\0'; i++)
-		if (str2[i] == '\0' || (str1[i] != str2[i]))
-			return (0);
-				return (1);
+	if (_strlen(str1) == _strlen(str2))
+	{
+		for (i = 0; str1[i] != '\0'; i++)
+			if (str2[i] == '\0' || (str1[i] != str2[i]))
+				return (0);
+		return (1);
+	}
+	else
+		return (0);
+	/* return (1); */
 }
 
 /**

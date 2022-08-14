@@ -44,14 +44,14 @@ char *search_bin(char *bin, char *path, int *test_f)
 		return (_strdup(bin));
 	}
 	test = stat(bin, &file);
-	if (test == 0)
-	{
-		*test_f = 0;
-		return (_strdup(bin));
-	}
 	if (path == NULL)
 	{
 		*test_f = -1;
+		return (_strdup(bin));
+	}
+	if (test == 0)
+	{
+		*test_f = 0;
 		return (_strdup(bin));
 	}
 	previous_path = malloc(sizeof(char) * PATH_MAX);
