@@ -30,8 +30,7 @@ char *search_bin(char *bin, char *path, int *test_f)
 	previous_path = malloc(sizeof(char) * PATH_MAX);
 	previous_path = getcwd(previous_path, PATH_MAX);
 	i_path = strtok(path, ":");
-
-	while (i_path != NULL)
+	while (i_path != NULL && path != NULL)
 	{
 		chdir(i_path);
 		test = stat(bin, &file);

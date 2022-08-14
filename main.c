@@ -79,7 +79,8 @@ int main(int __attribute__((unused)) argc, char **argv, char **env)
 		if (test_find != 1)
 			exit_stat = _myexec(argv[0], cmd, env, test_find);
 
-		free(path_s);
+		if (path_s != NULL)
+			free(path_s);
 		free(cmd);
 	} while (test_getline != -1);
 
