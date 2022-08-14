@@ -19,7 +19,7 @@ int _myexec(char *prg_name, char **cmd, char **env, int test)
 
 		if (pid_prg == -1)
 		{
-			return (-1);
+			return (EXIT_FAILURE);
 		}
 		else if (pid_prg == 0)
 		{
@@ -33,9 +33,10 @@ int _myexec(char *prg_name, char **cmd, char **env, int test)
 	{
 		display_error(prg_name, cmd[0]);
 		free(cmd[0]);
+		return (EXIT_FAILURE);
 	}
 
-	return (0);
+	return (EXIT_SUCCESS);
 }
 
 /**
@@ -55,7 +56,7 @@ int main(int __attribute__((unused)) argc, char **argv, char **env)
 	char *line_cmd = NULL;
 	char **cmd;
 	char *path_s = NULL;
-	int test_exec = 0, test_find;
+	int test_find, exit_stat = EXIT_SUCCESS;
 
 	do {
 		if (isatty(0))
@@ -66,7 +67,7 @@ int main(int __attribute__((unused)) argc, char **argv, char **env)
 		if (test_getline == -1)
 		{
 			free(line_cmd);
-			return (0);
+			return (exit_stat);
 		}
 
 		remove_end_line(line_cmd);
@@ -76,10 +77,7 @@ int main(int __attribute__((unused)) argc, char **argv, char **env)
 		cmd[0] = search_bin(cmd[0], path_s, &test_find);
 
 		if (test_find != 1)
-			test_exec = _myexec(argv[0], cmd, env, test_find);
-
-		if (test_exec == -1)
-			return (-1);
+			exit_stat = _myexec(argv[0], cmd, env, test_find);
 
 		free(path_s);
 		free(cmd);
@@ -88,5 +86,5 @@ int main(int __attribute__((unused)) argc, char **argv, char **env)
 	if (line_cmd != NULL)
 		free(line_cmd);
 
-	return (0);
+	return (exit_stat);
 }
